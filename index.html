@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Климатические системы</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <header class="header">
+    <h1 class="logo blue">Климатические системы</h1>
+    <button id="cartBtn" class="cart-btn" aria-haspopup="dialog" aria-controls="checkoutModal">
+      🛒 Корзина <span id="cartCount" class="cart-count">0</span>
+    </button>
+  </header>
+
+  <section class="subheader">
+    <p class="subtitle">Дистрибьютор климатической техники ведущих мировых производителей</p>
+  </section>
+
+  <main class="container">
+    <section class="products" id="products"></section>
+  </main>
+
+  <div id="checkoutModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal__overlay" data-close></div>
+    <div class="modal__dialog" role="document">
+      <button class="modal__close" aria-label="Закрыть" data-close>&times;</button>
+
+      <h2>Корзина</h2>
+
+      <div class="cart" id="cart"></div>
+
+      <div class="cart__footer">
+        <strong>Итого: <span id="total">0 ₽</span></strong>
+        <div class="cart__actions">
+          <button class="btn" id="clearCart">Очистить корзину</button>
+          <button class="btn primary" id="createOrder">Создать заказ</button>
+        </div>
+      </div>
+
+      <form id="orderForm" class="form" hidden>
+        <h3>Оформление заказа</h3>
+        <div class="form__row">
+          <label>Имя
+            <input name="name" type="text" required placeholder="Иван">
+          </label>
+          <label>Телефон
+            <input name="phone" type="tel" required placeholder="+7 900 000-00-00">
+          </label>
+        </div>
+        <label>Адрес доставки
+          <input name="address" type="text" required placeholder="Город, улица, дом">
+        </label>
+        <button type="submit" class="btn primary">Отправить заказ</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
