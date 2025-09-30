@@ -1,9 +1,12 @@
 const PRODUCTS = [
-  { id: 1, title: 'Полупромышленные сплит-системы', price: 80000, img: 'assets/split.jpg' },
-  { id: 2, title: 'Мульти-сплит системы',            price: 40000, img: 'assets/multisplit.jpg' },
-  { id: 3, title: 'Отопление',                       price: 20000, img: 'assets/heating.jpg' },
-  { id: 4, title: 'Вентиляционные системы',          price: 5000,  img: 'assets/ventilation.jpg' },
+  { id: 1, title: 'Полупромышленные сплит-системы', price: 80000,  img: 'assets/split.jpg' },
+  { id: 2, title: 'Мульти-сплит системы',            price: 40000,  img: 'assets/multisplit.jpg' },
+  { id: 3, title: 'Отопление',                       price: 20000,  img: 'assets/heating.jpg' },
+  { id: 4, title: 'Вентиляционные системы',          price: 5000,   img: 'assets/ventilation.jpg' },
+  { id: 5, title: 'Бытовые кондиционеры',            price: 30000,  img: 'assets/consumer-ac.jpg',   from: true },
+  { id: 6, title: 'Промышленные кондиционеры',       price: 100000, img: 'assets/industrial-ac.jpg', from: true },
 ];
+
 
 const STORAGE_KEY = 'climate_shop_cart';
 const loadCart  = () => JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');   // {id: qty}
@@ -22,29 +25,33 @@ const orderForm    = document.getElementById('orderForm');
 let cart = loadCart();
 
 function renderProducts(){
-  productsEl.innerHTML = PRODUCTS.map(p => `
-    <article class="card" data-id="${p.id}">
-      <img class="card__img" src="${p.img}" alt="${p.title}" loading="lazy"
-           onerror="this.src='https://picsum.photos/seed/fallback${p.id}/600/400'">
-      <div class="card__body">
-        <h3 class="card__title">${p.title}</h3>
-        <div class="card__price">${p.price.toLocaleString('ru-RU')} ₽</div>
+  productsEl.innerHTML = PRODUCTS.map(p => {
+    const priceLabel = (p.from ? 'от ' : '') + p.price.toLocaleString('ru-RU') + ' ₽';
+    return `
+      <article class="card" data-id="${p.id}">
+        <img class="card__img" src="${p.img}" alt="${p.title}" loading="lazy"
+             onerror="this.src='https://picsum.photos/seed/fallback${p.id}/600/400'">
+        <div class="card__body">
+          <h3 class="card__title">${p.title}</h3>
+          <div class="card__price">${priceLabel}</div>
 
-        <div class="selector">
-          <div class="selector__row">
-            <div class="qty">
-              <button class="qty-btn" data-dec>-</button>
-              <span data-qty>1</span>
-              <button class="qty-btn" data-inc>+</button>
+          <div class="selector">
+            <div class="selector__row">
+              <div class="qty">
+                <button class="qty-btn" data-dec>-</button>
+                <span data-qty>1</span>
+                <button class="qty-btn" data-inc>+</button>
+              </div>
+              <div class="selector__sum" data-sum">${p.price.toLocaleString('ru-RU')} ₽</div>
             </div>
-            <div class="selector__sum" data-sum>${p.price.toLocaleString('ru-RU')} ₽</div>
+            <button class="btn primary" data-add>Добавить в корзину</button>
           </div>
-          <button class="btn primary" data-add>Добавить в корзину</button>
         </div>
-      </div>
-    </article>
-  `).join('');
+      </article>
+    `;
+  }).join('');
 }
+
 
 function updateCartCount(){
   const n = Object.values(cart).reduce((s,q)=>s+q,0);
